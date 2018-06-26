@@ -48,12 +48,12 @@ for f in range(len(filenames)):
 labels = pd.get_dummies(list(y_data))
 labels3 = np.dot(labels.values,np.arange(1,121))
 
+X_train, X_test, y_train, y_test = train_test_split(x_data, labels3, test_size=0.20, random_state=42)
+
 #############################################################################################
 
 from sklearn import svm
-model = svm.SVC()
-
-X_train, X_test, y_train, y_test = train_test_split(x_data, labels3, test_size=0.20, random_state=42)
+model = svm.SVC(C = 0.025)
 
 model.fit(X_train,y_train)
 
@@ -80,3 +80,38 @@ length1 = len(X_test)
 correct1 = y_pred == y_test
 my_accuracy1 = (np.sum(correct1) / length1)*100
 print ('sgd LR Accuracy %: ', my_accuracy1)
+##############################################################################################
+
+from sklearn.NaiveBayes import GaussianNB
+nb = GaussianNB()
+nb.fit(X_train, y_train)
+
+pred1 = nb.predict(X_test)
+
+correct2 = 0
+length2 = len(X_test)
+
+correct2 = pred1 == y_test
+my_accuracy2 = (np.sum(correct2) / length2)*100
+print ('nb LR Accuracy %: ', my_accuracy2)
+############################################################################################
+
+from sklearn.neighbors import KNeighborsClassifier
+
+knn = KNeighborsClassifier(n_neighbors=15)
+knn.fit(X_train, y_train)
+
+y_pred1 = knn.predict(X_test)
+
+correct3 = 0
+length3 = len(X_test)
+
+correct3 = y_pred1 == y_test
+my_accuracy3 = (np.sum(correct3) / length3)*100
+print ('knn LR Accuracy %: ', my_accuracy3)
+###########################################################################################
+
+
+
+
+

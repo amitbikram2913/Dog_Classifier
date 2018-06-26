@@ -132,6 +132,7 @@ def conv_net(x, weights,biases,dropout):
     # Reshape conv2 output to fit fully connected layer input
     fc1 = tf.contrib.layers.flatten(max_3)
     fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
+    fc1 = tf.layers.batch_normalisation(fc1)
     fc1 = tf.nn.relu(fc1)
     # Apply Dropout
     fc1 = tf.nn.dropout(fc1, dropout)
@@ -196,10 +197,10 @@ with tf.Session() as sess:
                                                                      Y: batch_y, keep_prob: dropout})
                                                                      
             
-#            print (out)
-            print("Epoch " + str(epoch) + " Iteration " + str(step) + " Batch Loss= " + \
-                  str(loss) + " Training Accuracy= " + \
-                  str(acc))
+            if(step%10 == 0):
+                print("Epoch " + str(epoch) + " Iteration " + str(step) + " Batch Loss= " + \
+                      str(loss) + " Training Accuracy= " + \
+                      str(acc))
     
             
 
